@@ -45,22 +45,8 @@ public class MainActivity extends AppCompatActivity {
         try {
            final String[] webpagepath = assetManager.list(folder_name);
             //Toast.makeText(MainActivity.this, webpagepath[0], Toast.LENGTH_SHORT).show();
+            showSlides(webpagepath,wv,folder_name);
 
-
-            for(String file_name:webpagepath) {
-
-                wv.loadUrl("file:///android_asset/" + folder_name + "/" + file_name);
-
-                handler.postDelayed(new Runnable() {
-
-                    @Override
-                    public void run() {
-
-                    }
-                }, 10000);
-
-
-            }
 
         }
         catch(Exception e)
@@ -83,6 +69,26 @@ public class MainActivity extends AppCompatActivity {
         }.start();*/
 
     }
+private void showSlides(final String[] webpagepath,final WebView wv,final String folder_name)
+{
+
+    wv.loadUrl("file:///android_asset/" + folder_name + "/" + webpagepath[file_number]);
+
+    handler.postDelayed(new Runnable() {
+
+        @Override
+        public void run() {
+        if(file_number<webpagepath.length) {
+            file_number++;
+            showSlides(webpagepath,wv,folder_name);
+        }
+        }
+    }, 10000);
+
+
+}
+
+
 
 
 

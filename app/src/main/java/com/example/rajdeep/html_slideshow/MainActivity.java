@@ -52,7 +52,7 @@ public class MainActivity extends AppCompatActivity {
         catch(Exception e)
         {
 
-
+            e.printStackTrace();
         }
 
         /*new CountDownTimer(30000, 1000) {
@@ -71,26 +71,34 @@ public class MainActivity extends AppCompatActivity {
     }
 private void showSlides(final String[] webpagepath,final WebView wv,final String folder_name)
 {
-
     wv.loadUrl("file:///android_asset/" + folder_name + "/" + webpagepath[file_number]);
+    final Runnable runnable=new Runnable(){
 
-    handler.postDelayed(new Runnable() {
 
         @Override
         public void run() {
-        if(file_number<webpagepath.length) {
-            file_number++;
-            showSlides(webpagepath,wv,folder_name);
-        }
-        }
-    }, 10000);
 
+            if (file_number < webpagepath.length-1) {
+                file_number++;
+                showSlides(webpagepath, wv, folder_name);
+            }
+
+        }
+    };
+    if(file_number<webpagepath.length-1)
+        handler.postDelayed(runnable, 5000);
+    else
+        handler.removeCallbacks(runnable);
 
 }
 
 
+protected void onStop()
+{
+    super.onStop();
+    file_number=0;
 
-
+}
 
    /* public class MyCountDownTimer extends CountDownTimer
     {
